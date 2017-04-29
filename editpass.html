@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Index</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
+    <!--Let browser know website is optimized for mobile-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body  bgcolor="#37474f">
+
+    <div class="container">
+        <nav>
+            <div class="nav-wrapper blue-grey">
+                <!-- <a href="#" class="brand-logo"> &nbsp Logo</a> -->
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <a href="#" class="brand-logo"> &nbsp&nbsp&nbsp HOME</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="index.html"><i class="material-icons left">perm_identity</i>
+                    <span class="username"></span>&nbsp&nbsp&nbsp&nbsp&nbsp LOG OUT</a></li>
+                    <!-- <li><a href="signup.html">SIGN UP</a></li> -->
+                </ul>
+                <ul class="side-nav  blue-grey" id="mobile-demo">
+                    <li><a href="index.html">&nbsp LOG OUT</a></li>
+                    <!-- <li><a href="singup.html">&nbsp SIGN UP</a></li> -->
+                    <!-- <li><a href="home-login.html"><i class="material-icons" style="color: black;">skip_previous</i></a></li> -->
+                </ul>
+            </div>
+        </nav>
+        <br>
+        <div class="card-panel" id="showspace">
+            <div class="container">
+                <form class="" action="#" method="post">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input id="oldpassword" type="password" class="validate">
+                        <label for="username"><i class="material-icons left">dialpad</i>Old Password</label>
+                      </div>
+                      <div class="input-field col s12">
+                        <input id="newpassword" type="password" class="validate">
+                        <label for="password"><i class="material-icons left">dialpad</i>New Password</label>
+                      </div>
+                      <div class="input-field col s12">
+                        <input id="renewpassword" type="password" class="validate">
+                        <label for="password"><i class="material-icons left">dialpad</i>Re New Password</label>
+                      </div>
+                    </div>
+                    <button type="button" id="save" name="button" class="btn btn-primary"><i class="material-icons right">send</i>Save</button>
+                    <button type="button" id="cancel" name="button" class="btn btn-default"><i class="material-icons right">clear</i>Cancel</button>
+                </form>
+            </div>
+        </div>
+    <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+
+        <script type="text/javascript">
+        //sidebar menu for min-desktop
+        $(".button-collapse").sideNav();
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            return results[1] || 0;
+        }    
+
+        $(function(){
+            //Get user Id from querystring parameters
+            var id = $.urlParam('id');
+            //Create a Web Api url for getting a member info
+            var url = "http://membershipwebapi977290.azurewebsites.net/api/Members/" + id;        
+            console.log(url);
+            $.get(url, function(data, status) {
+                // console.log(data);
+                //Set data to form elements
+                $('.username').append(data.UserName);
+            
+                $("#cancel").click(function () {
+                    window.location.href = "home-login.html?id=" + data.Id; 
+                });  
+
+                $("#save").click(function(){
+                    // console.log(data.Password);
+                    var datapassword = data.Password;
+                    var oldpassword = $("#oldpassword").val();
+                    var newpassword = $("#newpassword").val();
+                    var renewpassword = $("#renewpassword").val();
+                    if(oldpassword == datapassword){
+                        if (newpassword == renewpassword) {
+                            var newuser = { };
+                            newuser.Id = data.Id;
+                            newuser.username = data.UserName;
+                            newuser.Password = $("#newpassword").val();
+                            newuser.firstname = data.FirstName;
+                            newuser.lastname = data.LastName;
+                            newuser.email = data.Email;
+                            newuser.tel = data.Tel;
+                            // console.log(JSON.stringify(newuser));
+
+                            var updateUrl = "http://membershipwebapi977290.azurewebsites.net/api/Members/" + data.Id;
+                            $.ajax({
+                                url: updateUrl,
+                                type: 'PUT',
+                                data: newuser,
+                                success: function(result) {
+                                    alert('Updated Complete!');
+                                    window.location.href = "home-login.html?id=" + data.Id;
+                                }
+                            });
+                        }else{
+                            alert('New Password not match !');
+                        }
+                    }else{
+                        alert('Old Password Wrong !');
+                    }
+                });          
+                });               
+            });        
+    </script>
+</body>
+
+</html>

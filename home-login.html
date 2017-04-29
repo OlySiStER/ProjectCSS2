@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Index</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
+    <!--Let browser know website is optimized for mobile-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body  bgcolor="#37474f">
+
+    <div class="container">
+        <nav>
+            <div class="nav-wrapper  blue-grey">
+                <!-- <a href="#" class="brand-logo"> &nbsp Logo</a> -->
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <a href="#" class="brand-logo"> &nbsp&nbsp&nbsp HOME</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="index.html"><i class="material-icons left">perm_identity</i>
+                    <span class="username"></span>&nbsp&nbsp&nbsp&nbsp&nbspLOG OUT</a></li>
+                    <!-- <li><a href="signup.html">SIGN UP</a></li> -->
+                </ul>
+                <ul class="side-nav  blue-grey" id="mobile-demo">
+                    <li><a href="index.html">&nbsp LOG OUT</a></li>
+                    <!-- <li><a href="singup.html">&nbsp SIGN UP</a></li> -->
+                    <!-- <li><a href="home-login.html"><i class="material-icons" style="color: black;">skip_previous</i></a></li> -->
+                </ul>
+            </div>
+        </nav>
+        <br>
+        <div class="card-panel" id="showspace">
+            <div class="container">
+              <h5>User Information</h5>
+              <form class="" action="#" method="post">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <p class="form-control-static username " id="username" placeholder=""></p>
+                </div><br>
+                <!-- <div class="form-group">
+                  <label for="password">Password</label>
+                  <p class="form-control-static" id="password" placeholder=""></p>
+                </div><br> -->
+                <div class="form-group">
+                  <label for="fname">First name</label>
+                  <p class="form-control-static" id="fname" placeholder=""></p>
+                </div><br>
+                <div class="form-group">
+                  <label for="lname">Last name</label>
+                  <p class="form-control-static" id="lname" placeholder=""></p>
+                </div><br>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <p class="form-control-static" id="email" placeholder=""></p>
+                </div><br>
+                <div class="form-group">
+                  <label for="tel">Telephone</label>
+                  <p class="form-control-static" id="tel" placeholder=""></p>
+                </div>
+                <br>
+                <button type="button" id="edit" name="button" class="btn btn-primary">Edit Information&nbsp<i class="material-icons">mode_edit</i></button>
+                <button type="button" id="editpass" name="button" class="btn btn-primary">Edit Password&nbsp<i class="material-icons">dialpad</i></button>
+              </form>
+             </div>
+            </div>  
+        </div>
+            <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+
+        <script type="text/javascript">
+        //sidebar menu for min-desktop
+        $(".button-collapse").sideNav();
+
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            return results[1] || 0;
+        }    
+
+        $(function(){
+            //Get user Id from querystring parameters
+            var id = $.urlParam('id');
+            //Create a Web Api url for getting a member info
+            var url = "http://membershipwebapi977290.azurewebsites.net/api/Members/" + id;        
+            // console.log(url);
+            $.get(url, function(data, status) {
+                console.log(data);
+                $('.username').html(data.UserName);
+                $('#username').html(data.UserName);
+                $('#password').html(data.Password);
+                $('#fname').html(data.FirstName);
+                $('#lname').html(data.LastName);
+                $('#email').html(data.Email);
+                $('#tel').html(data.Tel);
+
+                //If user click edit, go to edituser page
+                $("#edit").click(function () {
+                    window.location.href = "edituser.html?id=" + data.Id;
+                });  
+
+                $("#editpass").click(function () {
+                    window.location.href = "editpass.html?id=" + data.Id;
+                });              
+            });        
+        });
+    </script>
+</body>
+
+</html>

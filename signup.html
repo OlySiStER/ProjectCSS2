@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign Up</title>
+
+    <!-- Bootstrap -->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body bgcolor="#37474f">
+    <br>
+    <div class="container">
+      <div class="card-panel">
+        <form action="#" id="signupform" novalidate="novalidate">
+          <!-- <h1>Sign Up New Member</h1> -->
+          <br><h4 style="color:gray;">Sign Up New Member</h4><br><br>
+          <div class="input-field col s12">
+            <label for="username">Username</label>
+            <input type="text" class="validate" id="username">
+            <!-- <p class="help-block">Input your username here.</p> -->
+          </div>
+          <div class="input-field col s12">
+            <label for="password">Password</label>
+            <input type="password" class="validate" id="password">
+            <!-- <p class="help-block">Input your password here.</p> -->
+          </div>
+          <div class="input-field col s12">
+            <label for="repassword">Re-Password</label>
+            <input type="password" class="validate" id="repassword">
+            <!-- <p class="help-block">Input your re-password here.</p> -->
+          </div>
+          <div class="input-field col s12">
+            <label for="fname">Firstname</label>
+            <input type="text" class="validate" id="fname" name="fname">
+            <!-- <p class="help-block">Input your firstname here.</p> -->
+          </div>
+          <div class="input-field col s12">
+            <label for="lname">Lastname</label>
+            <input type="text" class="validate" id="lname" name="lname">
+            <!-- <p class="help-block">Input your lastname here.</p> -->
+          </div>
+          <div class="input-field col s12">
+            <label for="email">E-mail</label>
+            <input type="email" class="validate" id="email">
+            <!-- <p class="help-block">Input your e-mail here.</p> -->
+          </div>
+          <div class="input-field col s12">
+            <label for="tel">Telephone</label>
+            <input type="tel" class="validate" id="telephone">
+            <!-- <p class="help-block">Input your telephone here.</p> -->
+          </div>
+          <button type="button" name="button" id="signup" class="btn btn-primary"><i class="material-icons right">contact_phone</i>SIGN UP</button>
+          <button type="button" name="button" id="home" class="btn btn-primary"><i class="material-icons right">account_balance</i>HOME</button>
+        </form>
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script tppe="text/javascript" src="js/jquery.validate.js"></script>
+
+    <script type="text/javascript">
+      $("#signup").click(function() {
+
+        var newuser = {
+          UserName:"",
+          Password:"",
+          FirstName:"",
+          LastName:"",
+          Email:"",
+          Tel:"",
+        };
+
+        newuser.UserName = $("#username").val();
+        newuser.Password = $("#password").val();
+        repassword = $("#repassword").val();
+        newuser.FirstName = $("#fname").val();
+        newuser.LastName = $("#lname").val();
+        newuser.Email = $("#email").val();
+        newuser.Tel = $("#telephone").val();
+
+        if(newuser.Password != repassword){
+          alert("Password not match");
+        }
+
+        if (newuser.UserName && newuser.Password && newuser.FirstName && newuser.LastName && newuser.Email && newuser.Tel) {
+          var url = "http://membershipwebapi977290.azurewebsites.net/api/Members";
+          $.post(url, newuser, function(data, status){
+            alert("SIGN UP Complete. \nWebsite will redirect to login page.");
+            window.location.assign("login.html");
+          });
+        }else{
+          alert("Please fill form");
+        }
+      });
+ 
+      $("#home").click(function() {
+          // console.log("Sign Up");
+          window.location.assign("index.html");
+      });
+    </script>
+  </body>
+</html>

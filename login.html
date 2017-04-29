@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Sign In</title>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </head>
+
+
+    <body bgcolor="#37474f">
+      <div class="container">
+        <div class="card-panel">
+
+          <br><h4 style="color:gray;">Please Login</h4><br><br>
+          <form class="" action="#" method="post">
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="username" type="text" class="validate">
+                <label for="username"><i class="material-icons left">perm_identity</i>Username</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="password" type="password" class="validate">
+                <label for="password"><i class="material-icons left">dialpad</i>Password</label>
+              </div>
+            </div>
+            <a class="waves-effect waves-light btn" id="signin"><i class="material-icons right">send</i>SIGN IN</a>
+            <a class="waves-effect waves-light btn" id="signup"><i class="material-icons right">contact_phone</i>SIGN UP</a>
+            <a class="waves-effect waves-light btn" id="home"><i class="material-icons right">account_balance</i>HOME</a>
+          </form>
+        </div>
+      </div>
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.js"></script>
+      <script type="text/javascript">
+        $("#signin").click(function() {
+          var username = $("#username").val();
+          var password = $("#password").val();
+          var url = "http://membershipwebapi977290.azurewebsites.net/api/members/signin?username=" + username + "&password=" + password;
+          $.get(url, function(data, status){
+            // console.log("URL : " + url);
+            // console.log("inserted " + data.Status);
+            if(data.Status){
+              // console.log("OK");
+              // window.location.assign("home-login.html");
+              window.location.href = "home-login.html?id=" + data.CurrentUser.Id;
+            }else{
+              window.alert("Username or Password wrong !");
+              window.location.assign("login.html");
+            }
+          });
+        });
+
+        $("#signup").click(function() {
+          // console.log("Sign Up");
+          window.location.assign("signup.html");
+        });
+
+        $("#home").click(function() {
+          // console.log("Sign Up");
+          window.location.assign("index.html");
+        });
+      </script>
+    </body>
+  </html>
